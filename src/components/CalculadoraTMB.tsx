@@ -6,9 +6,7 @@ export function CalculadoraTMB() {
     const [peso, setPeso] = useState('')
     const [estatura, setEstatura] = useState('')
     const [idade, setIdade] = useState('')
-
-    const taxaAtividade =
-    {
+    const taxaAtividade = {
         sedentario: 1.2,
         levemente_ativo: 1.375,
         moderadamente_ativo: 1.55,
@@ -18,24 +16,20 @@ export function CalculadoraTMB() {
 
     const taxaGenero = {
         masculino: {
+            label: 'masculino',
             valtot: 66,
             valpeso: 13.7,
             valalt: 5,
             valid: 6.8
         },
         feminino: {
+            label: 'feminino',
             valtot: 655,
             valpeso: 9.6,
             valalt: 1.8,
             valid: 4.7
         }
     }
-
-    const calcPeso = 13.7 * peso
-    const calcAlt = 5 * estatura
-    const calcIdade = 6.8 * idade
-    const tmb = (atividade * (66 + (calcPeso + (calcAlt - calcIdade)))).toFixed(0)
-    console.log(atividade)
 
     return (
         <div className="p-4">
@@ -44,22 +38,34 @@ export function CalculadoraTMB() {
             </span>
             <div className="flex mt-4">
                 <form action="" className="flex flex-col justify-center items-center w-full ">
-                    <legend>
-                        Nivel de Atividade:
-                        <select
-                            className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
-                            onChange={event => setAtividade(event.target.value)}
-                        >
-                            <option value={taxaAtividade.sedentario}>Sedentário</option>
-                            <option value={taxaAtividade.levemente_ativo}>Levemente ativo</option>
-                            <option value={taxaAtividade.moderadamente_ativo}>Moderadamente ativo</option>
-                            <option value={taxaAtividade.altamente_ativo}>Altamente ativo</option>
-                            <option value={taxaAtividade.extremamente_ativo}>Extremamente ativo</option>
-                        </select>
-                    </legend>
+                    <div className="flex justify-between p-2">
+                        <legend className="mr-2">
+                            Genero:
+                            <select
+                                className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                                onChange={event => setSexo(event.target.value)}
+                            >
+                                <option value={taxaGenero.masculino.label}>Masculino</option>
+                                <option value={taxaGenero.feminino.label}>Feminino</option>
+                            </select>
+                        </legend>
+                        <legend className="ml-2">
+                            Nivel de Atividade:
+                            <select
+                                className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                                onChange={event => setAtividade(event.target.value)}
+                            >
+                                <option value={taxaAtividade.sedentario}>Sedentário</option>
+                                <option value={taxaAtividade.levemente_ativo}>Levemente ativo</option>
+                                <option value={taxaAtividade.moderadamente_ativo}>Moderadamente ativo</option>
+                                <option value={taxaAtividade.altamente_ativo}>Altamente ativo</option>
+                                <option value={taxaAtividade.extremamente_ativo}>Extremamente ativo</option>
+                            </select>
+                        </legend>
+                    </div>
                     <div className="flex justify-around p-2">
                         <legend className="mr-2">
-                            Sua Idade:
+                            Idade:
                             <input
                                 type="number"
                                 className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
@@ -68,7 +74,7 @@ export function CalculadoraTMB() {
                             />
                         </legend>
                         <legend className="ml-2">
-                            Seu Estatura:
+                            Estatura:
                             <input
                                 type="number"
                                 className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
@@ -77,7 +83,7 @@ export function CalculadoraTMB() {
                             />
                         </legend>
                         <legend className="ml-2">
-                            Seu Peso:
+                            Peso:
                             <input
                                 type="number"
                                 className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
@@ -87,7 +93,26 @@ export function CalculadoraTMB() {
                         </legend>
                     </div>
                     <span className="pt-2 text-green-400 text-xl font-base">
-                        {tmb >= '100' ? `Taxa Metabólica Basal estimada: ${tmb} Kcal` : null}
+                        Metabolismo basal:{' '}
+                        {sexo === 'masculino' ? (atividade * (
+                            taxaGenero.masculino.valtot + (
+                                (taxaGenero.masculino.valpeso * peso)
+                                + (
+                                    (taxaGenero.masculino.valalt * estatura)
+                                    - (taxaGenero.masculino.valid * idade)
+                                )
+                            )
+                        )
+                        ).toFixed(0) : 'feminino' ? (atividade * (
+                            taxaGenero.feminino.valtot + (
+                                (taxaGenero.feminino.valpeso * peso)
+                                + (
+                                    (taxaGenero.feminino.valalt * estatura)
+                                    - (taxaGenero.feminino.valid * idade)
+                                )
+                            )
+                        )
+                        ).toFixed(0) : null}
                     </span>
                 </form>
             </div>

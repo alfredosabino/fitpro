@@ -3,7 +3,7 @@ import { useState } from "react"
 export function CalculadoraIMC() {
     const [altura, setAltura] = useState('')
     const [peso, setPeso] = useState('')
-    const alt = altura * altura
+    const alt = parseFloat(altura) * parseFloat(altura)
     const imc = (parseFloat(peso) / alt).toFixed(1)
 
     return (
@@ -12,15 +12,15 @@ export function CalculadoraIMC() {
             <div className="flex mt-4">
                 <form action="" className="flex justify-center items-center w-full">
                     <legend className="mr-2">
-                        Sua Altura:
+                        Estatura:
                         <input
                             type="number"
                             className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
-                            placeholder="Sua Altura"
+                            placeholder="Sua Estatura"
                             onChange={event => setAltura(event.target.value)} />
                     </legend>
                     <legend className="ml-2">
-                        Seu Peso:
+                        Peso:
                         <input
                             type="number"
                             className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
