@@ -1,0 +1,21 @@
+query GetStudents {
+  usuarios(orderBy: name_ASC) {
+    name
+    slug
+    bio
+    age
+    weight
+    stature
+    genre
+    id
+    coach {
+      name
+      slug
+      bio
+      id
+    }
+    picture {
+      url
+    }
+  }
+}

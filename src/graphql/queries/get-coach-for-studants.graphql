@@ -1,0 +1,21 @@
+query CoachforStudants {
+  coach(where: {slug: "paulao"}) {
+    bio
+    id
+    name
+    usuarios {
+      age
+      bio
+      genre
+      id
+      name
+      picture {
+        url
+      }
+      slug
+      stature
+      weight
+      taxa_atividade
+    }
+  }
+}

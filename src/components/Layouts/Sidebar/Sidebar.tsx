@@ -1,5 +1,5 @@
-import React from "react";
-import { MenuItems } from "./MenuItems";
+import { Link } from "react-router-dom";
+import { MenuItems } from "./MenuItems/MenuItems";
 
 export function Sidebar() {
     return (
@@ -15,11 +15,8 @@ export function Sidebar() {
                 </div>
             </div>
             <div className="flex flex-col bg-gray-500 rounded-lg mt-4">
-                <MenuItems/>
-                <MenuItems/>
-                <MenuItems/>
-                <MenuItems/>
-                <MenuItems/>
+                <MenuItems link={"coach"} menuitem={"Alunos"} />
+                <MenuItems link={"avaliable"} menuitem={"Avalicação"} />
             </div>
         </aside>
     )
