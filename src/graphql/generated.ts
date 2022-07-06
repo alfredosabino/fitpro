@@ -53,7 +53,6 @@ export type Asset = Node & {
   localizations: Array<Asset>;
   /** The mime type of the file */
   mimeType?: Maybe<Scalars['String']>;
-  pictureCoach: Array<Coach>;
   pictureUsuario: Array<Usuario>;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
@@ -107,19 +106,6 @@ export type AssetHistoryArgs = {
 export type AssetLocalizationsArgs = {
   includeCurrent?: Scalars['Boolean'];
   locales?: Array<Locale>;
-};
-
-
-/** Asset system model */
-export type AssetPictureCoachArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  locales?: InputMaybe<Array<Locale>>;
-  orderBy?: InputMaybe<CoachOrderByInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<CoachWhereInput>;
 };
 
 
@@ -202,7 +188,6 @@ export type AssetCreateInput = {
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: InputMaybe<AssetCreateLocalizationsInput>;
   mimeType?: InputMaybe<Scalars['String']>;
-  pictureCoach?: InputMaybe<CoachCreateManyInlineInput>;
   pictureUsuario?: InputMaybe<UsuarioCreateManyInlineInput>;
   size?: InputMaybe<Scalars['Float']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -299,9 +284,6 @@ export type AssetManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
-  pictureCoach_every?: InputMaybe<CoachWhereInput>;
-  pictureCoach_none?: InputMaybe<CoachWhereInput>;
-  pictureCoach_some?: InputMaybe<CoachWhereInput>;
   pictureUsuario_every?: InputMaybe<UsuarioWhereInput>;
   pictureUsuario_none?: InputMaybe<UsuarioWhereInput>;
   pictureUsuario_some?: InputMaybe<UsuarioWhereInput>;
@@ -380,7 +362,6 @@ export type AssetUpdateInput = {
   /** Manage document localizations */
   localizations?: InputMaybe<AssetUpdateLocalizationsInput>;
   mimeType?: InputMaybe<Scalars['String']>;
-  pictureCoach?: InputMaybe<CoachUpdateManyInlineInput>;
   pictureUsuario?: InputMaybe<UsuarioUpdateManyInlineInput>;
   size?: InputMaybe<Scalars['Float']>;
   width?: InputMaybe<Scalars['Float']>;
@@ -621,9 +602,6 @@ export type AssetWhereInput = {
   mimeType_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   mimeType_starts_with?: InputMaybe<Scalars['String']>;
-  pictureCoach_every?: InputMaybe<CoachWhereInput>;
-  pictureCoach_none?: InputMaybe<CoachWhereInput>;
-  pictureCoach_some?: InputMaybe<CoachWhereInput>;
   pictureUsuario_every?: InputMaybe<UsuarioWhereInput>;
   pictureUsuario_none?: InputMaybe<UsuarioWhereInput>;
   pictureUsuario_some?: InputMaybe<UsuarioWhereInput>;
@@ -701,7 +679,7 @@ export type AssetWhereUniqueInput = {
 
 export type Avaliable = Node & {
   __typename?: 'Avaliable';
-  content: Scalars['String'];
+  avaliableForCoach?: Maybe<Coach>;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
@@ -709,23 +687,30 @@ export type Avaliable = Node & {
   date: Scalars['Date'];
   /** Get the document in other stages */
   documentInStages: Array<Avaliable>;
+  estatura: Scalars['Int'];
   /** List of Avaliable versions */
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
+  nivelAtividade: NivelAtividade;
+  peso: Scalars['Int'];
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
   publishedBy?: Maybe<User>;
   scheduledIn: Array<ScheduledOperation>;
-  slug?: Maybe<Scalars['String']>;
   /** System stage field */
   stage: Stage;
-  title: Scalars['String'];
   /** The time the document was updated */
   updatedAt: Scalars['DateTime'];
   /** User that last updated this document */
   updatedBy?: Maybe<User>;
+  usuario?: Maybe<Usuario>;
+};
+
+
+export type AvaliableAvaliableForCoachArgs = {
+  locales?: InputMaybe<Array<Locale>>;
 };
 
 
@@ -768,6 +753,11 @@ export type AvaliableUpdatedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
 
+
+export type AvaliableUsuarioArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
 export type AvaliableConnectInput = {
   /** Allow to specify document position in list of connected documents, will default to appending at end of list */
   position?: InputMaybe<ConnectPositionInput>;
@@ -786,12 +776,14 @@ export type AvaliableConnection = {
 };
 
 export type AvaliableCreateInput = {
-  content: Scalars['String'];
+  avaliableForCoach?: InputMaybe<CoachCreateOneInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   date: Scalars['Date'];
-  slug?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+  estatura: Scalars['Int'];
+  nivelAtividade: NivelAtividade;
+  peso: Scalars['Int'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
+  usuario?: InputMaybe<UsuarioCreateOneInlineInput>;
 };
 
 export type AvaliableCreateManyInlineInput = {
@@ -827,25 +819,7 @@ export type AvaliableManyWhereInput = {
   OR?: InputMaybe<Array<AvaliableWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
-  content?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  content_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  content_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  content_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  content_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  content_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  content_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  content_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  content_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  content_starts_with?: InputMaybe<Scalars['String']>;
+  avaliableForCoach?: InputMaybe<CoachWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -877,6 +851,21 @@ export type AvaliableManyWhereInput = {
   date_not?: InputMaybe<Scalars['Date']>;
   /** All values that are not contained in given list. */
   date_not_in?: InputMaybe<Array<Scalars['Date']>>;
+  estatura?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  estatura_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  estatura_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  estatura_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  estatura_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  estatura_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  estatura_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  estatura_not_in?: InputMaybe<Array<Scalars['Int']>>;
   id?: InputMaybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']>;
@@ -896,6 +885,28 @@ export type AvaliableManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  nivelAtividade?: InputMaybe<NivelAtividade>;
+  /** All values that are contained in given list. */
+  nivelAtividade_in?: InputMaybe<Array<NivelAtividade>>;
+  /** All values that are not equal to given value. */
+  nivelAtividade_not?: InputMaybe<NivelAtividade>;
+  /** All values that are not contained in given list. */
+  nivelAtividade_not_in?: InputMaybe<Array<NivelAtividade>>;
+  peso?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  peso_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  peso_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  peso_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  peso_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  peso_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  peso_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  peso_not_in?: InputMaybe<Array<Scalars['Int']>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -915,44 +926,6 @@ export type AvaliableManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
-  slug?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  slug_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  slug_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  slug_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  slug_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  slug_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  slug_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  slug_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  slug_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  slug_starts_with?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  title_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  title_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  title_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  title_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  title_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  title_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  title_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  title_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  title_starts_with?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -969,32 +942,35 @@ export type AvaliableManyWhereInput = {
   /** All values that are not contained in given list. */
   updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   updatedBy?: InputMaybe<UserWhereInput>;
+  usuario?: InputMaybe<UsuarioWhereInput>;
 };
 
 export enum AvaliableOrderByInput {
-  ContentAsc = 'content_ASC',
-  ContentDesc = 'content_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
   DateAsc = 'date_ASC',
   DateDesc = 'date_DESC',
+  EstaturaAsc = 'estatura_ASC',
+  EstaturaDesc = 'estatura_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  NivelAtividadeAsc = 'nivelAtividade_ASC',
+  NivelAtividadeDesc = 'nivelAtividade_DESC',
+  PesoAsc = 'peso_ASC',
+  PesoDesc = 'peso_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
-  SlugAsc = 'slug_ASC',
-  SlugDesc = 'slug_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC'
 }
 
 export type AvaliableUpdateInput = {
-  content?: InputMaybe<Scalars['String']>;
+  avaliableForCoach?: InputMaybe<CoachUpdateOneInlineInput>;
   date?: InputMaybe<Scalars['Date']>;
-  slug?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
+  estatura?: InputMaybe<Scalars['Int']>;
+  nivelAtividade?: InputMaybe<NivelAtividade>;
+  peso?: InputMaybe<Scalars['Int']>;
+  usuario?: InputMaybe<UsuarioUpdateOneInlineInput>;
 };
 
 export type AvaliableUpdateManyInlineInput = {
@@ -1015,8 +991,10 @@ export type AvaliableUpdateManyInlineInput = {
 };
 
 export type AvaliableUpdateManyInput = {
-  content?: InputMaybe<Scalars['String']>;
   date?: InputMaybe<Scalars['Date']>;
+  estatura?: InputMaybe<Scalars['Int']>;
+  nivelAtividade?: InputMaybe<NivelAtividade>;
+  peso?: InputMaybe<Scalars['Int']>;
 };
 
 export type AvaliableUpdateManyWithNestedWhereInput = {
@@ -1072,25 +1050,7 @@ export type AvaliableWhereInput = {
   OR?: InputMaybe<Array<AvaliableWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
-  content?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  content_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  content_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  content_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  content_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  content_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  content_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  content_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  content_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  content_starts_with?: InputMaybe<Scalars['String']>;
+  avaliableForCoach?: InputMaybe<CoachWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1122,6 +1082,21 @@ export type AvaliableWhereInput = {
   date_not?: InputMaybe<Scalars['Date']>;
   /** All values that are not contained in given list. */
   date_not_in?: InputMaybe<Array<Scalars['Date']>>;
+  estatura?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  estatura_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  estatura_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  estatura_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  estatura_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  estatura_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  estatura_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  estatura_not_in?: InputMaybe<Array<Scalars['Int']>>;
   id?: InputMaybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']>;
@@ -1141,6 +1116,28 @@ export type AvaliableWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  nivelAtividade?: InputMaybe<NivelAtividade>;
+  /** All values that are contained in given list. */
+  nivelAtividade_in?: InputMaybe<Array<NivelAtividade>>;
+  /** All values that are not equal to given value. */
+  nivelAtividade_not?: InputMaybe<NivelAtividade>;
+  /** All values that are not contained in given list. */
+  nivelAtividade_not_in?: InputMaybe<Array<NivelAtividade>>;
+  peso?: InputMaybe<Scalars['Int']>;
+  /** All values greater than the given value. */
+  peso_gt?: InputMaybe<Scalars['Int']>;
+  /** All values greater than or equal the given value. */
+  peso_gte?: InputMaybe<Scalars['Int']>;
+  /** All values that are contained in given list. */
+  peso_in?: InputMaybe<Array<Scalars['Int']>>;
+  /** All values less than the given value. */
+  peso_lt?: InputMaybe<Scalars['Int']>;
+  /** All values less than or equal the given value. */
+  peso_lte?: InputMaybe<Scalars['Int']>;
+  /** All values that are not equal to given value. */
+  peso_not?: InputMaybe<Scalars['Int']>;
+  /** All values that are not contained in given list. */
+  peso_not_in?: InputMaybe<Array<Scalars['Int']>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1160,44 +1157,6 @@ export type AvaliableWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
-  slug?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  slug_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  slug_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  slug_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  slug_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  slug_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  slug_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  slug_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  slug_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  slug_starts_with?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  title_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  title_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  title_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  title_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  title_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  title_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  title_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  title_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  title_starts_with?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1214,13 +1173,12 @@ export type AvaliableWhereInput = {
   /** All values that are not contained in given list. */
   updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   updatedBy?: InputMaybe<UserWhereInput>;
+  usuario?: InputMaybe<UsuarioWhereInput>;
 };
 
 /** References Avaliable record uniquely */
 export type AvaliableWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
-  slug?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
 };
 
 export type BatchPayload = {
@@ -1231,19 +1189,18 @@ export type BatchPayload = {
 
 export type Coach = Node & {
   __typename?: 'Coach';
-  bio?: Maybe<Scalars['String']>;
+  avaliables: Array<Avaliable>;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
   createdBy?: Maybe<User>;
   /** Get the document in other stages */
   documentInStages: Array<Coach>;
+  especialidade: Scalars['String'];
   /** List of Coach versions */
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
-  name: Scalars['String'];
-  picture?: Maybe<Asset>;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
@@ -1256,7 +1213,19 @@ export type Coach = Node & {
   updatedAt: Scalars['DateTime'];
   /** User that last updated this document */
   updatedBy?: Maybe<User>;
-  usuarios: Array<Usuario>;
+  usuario?: Maybe<Usuario>;
+};
+
+
+export type CoachAvaliablesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<AvaliableOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AvaliableWhereInput>;
 };
 
 
@@ -1276,11 +1245,6 @@ export type CoachHistoryArgs = {
   limit?: Scalars['Int'];
   skip?: Scalars['Int'];
   stageOverride?: InputMaybe<Stage>;
-};
-
-
-export type CoachPictureArgs = {
-  locales?: InputMaybe<Array<Locale>>;
 };
 
 
@@ -1305,15 +1269,8 @@ export type CoachUpdatedByArgs = {
 };
 
 
-export type CoachUsuariosArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
+export type CoachUsuarioArgs = {
   locales?: InputMaybe<Array<Locale>>;
-  orderBy?: InputMaybe<UsuarioOrderByInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<UsuarioWhereInput>;
 };
 
 export type CoachConnectInput = {
@@ -1334,13 +1291,12 @@ export type CoachConnection = {
 };
 
 export type CoachCreateInput = {
-  bio?: InputMaybe<Scalars['String']>;
+  avaliables?: InputMaybe<AvaliableCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  name: Scalars['String'];
-  picture?: InputMaybe<AssetCreateOneInlineInput>;
+  especialidade: Scalars['String'];
   slug: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  usuarios?: InputMaybe<UsuarioCreateManyInlineInput>;
+  usuario?: InputMaybe<UsuarioCreateOneInlineInput>;
 };
 
 export type CoachCreateManyInlineInput = {
@@ -1376,25 +1332,9 @@ export type CoachManyWhereInput = {
   OR?: InputMaybe<Array<CoachWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
-  bio?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  bio_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  bio_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  bio_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  bio_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  bio_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  bio_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  bio_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  bio_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  bio_starts_with?: InputMaybe<Scalars['String']>;
+  avaliables_every?: InputMaybe<AvaliableWhereInput>;
+  avaliables_none?: InputMaybe<AvaliableWhereInput>;
+  avaliables_some?: InputMaybe<AvaliableWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1411,6 +1351,25 @@ export type CoachManyWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   createdBy?: InputMaybe<UserWhereInput>;
+  especialidade?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  especialidade_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  especialidade_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  especialidade_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  especialidade_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  especialidade_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  especialidade_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  especialidade_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  especialidade_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  especialidade_starts_with?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']>;
@@ -1430,26 +1389,6 @@ export type CoachManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
-  name?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  name_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  name_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  name_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  name_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  name_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  name_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  name_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  name_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  name_starts_with?: InputMaybe<Scalars['String']>;
-  picture?: InputMaybe<AssetWhereInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1504,20 +1443,16 @@ export type CoachManyWhereInput = {
   /** All values that are not contained in given list. */
   updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   updatedBy?: InputMaybe<UserWhereInput>;
-  usuarios_every?: InputMaybe<UsuarioWhereInput>;
-  usuarios_none?: InputMaybe<UsuarioWhereInput>;
-  usuarios_some?: InputMaybe<UsuarioWhereInput>;
+  usuario?: InputMaybe<UsuarioWhereInput>;
 };
 
 export enum CoachOrderByInput {
-  BioAsc = 'bio_ASC',
-  BioDesc = 'bio_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
+  EspecialidadeAsc = 'especialidade_ASC',
+  EspecialidadeDesc = 'especialidade_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
-  NameAsc = 'name_ASC',
-  NameDesc = 'name_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   SlugAsc = 'slug_ASC',
@@ -1527,11 +1462,10 @@ export enum CoachOrderByInput {
 }
 
 export type CoachUpdateInput = {
-  bio?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  picture?: InputMaybe<AssetUpdateOneInlineInput>;
+  avaliables?: InputMaybe<AvaliableUpdateManyInlineInput>;
+  especialidade?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
-  usuarios?: InputMaybe<UsuarioUpdateManyInlineInput>;
+  usuario?: InputMaybe<UsuarioUpdateOneInlineInput>;
 };
 
 export type CoachUpdateManyInlineInput = {
@@ -1552,7 +1486,7 @@ export type CoachUpdateManyInlineInput = {
 };
 
 export type CoachUpdateManyInput = {
-  bio?: InputMaybe<Scalars['String']>;
+  especialidade?: InputMaybe<Scalars['String']>;
 };
 
 export type CoachUpdateManyWithNestedWhereInput = {
@@ -1608,25 +1542,9 @@ export type CoachWhereInput = {
   OR?: InputMaybe<Array<CoachWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
-  bio?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  bio_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  bio_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  bio_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  bio_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  bio_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  bio_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  bio_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  bio_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  bio_starts_with?: InputMaybe<Scalars['String']>;
+  avaliables_every?: InputMaybe<AvaliableWhereInput>;
+  avaliables_none?: InputMaybe<AvaliableWhereInput>;
+  avaliables_some?: InputMaybe<AvaliableWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1643,6 +1561,25 @@ export type CoachWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   createdBy?: InputMaybe<UserWhereInput>;
+  especialidade?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  especialidade_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  especialidade_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  especialidade_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  especialidade_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  especialidade_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  especialidade_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  especialidade_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  especialidade_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  especialidade_starts_with?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']>;
@@ -1662,26 +1599,6 @@ export type CoachWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
-  name?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  name_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  name_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  name_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  name_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  name_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  name_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  name_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  name_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  name_starts_with?: InputMaybe<Scalars['String']>;
-  picture?: InputMaybe<AssetWhereInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -1736,15 +1653,12 @@ export type CoachWhereInput = {
   /** All values that are not contained in given list. */
   updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   updatedBy?: InputMaybe<UserWhereInput>;
-  usuarios_every?: InputMaybe<UsuarioWhereInput>;
-  usuarios_none?: InputMaybe<UsuarioWhereInput>;
-  usuarios_some?: InputMaybe<UsuarioWhereInput>;
+  usuario?: InputMaybe<UsuarioWhereInput>;
 };
 
 /** References Coach record uniquely */
 export type CoachWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']>;
-  name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
 };
 
@@ -3982,6 +3896,12 @@ export enum SystemDateTimeFieldVariation {
   Localization = 'LOCALIZATION'
 }
 
+export enum TipoUsuario {
+  Adm = 'ADM',
+  Aluno = 'Aluno',
+  Professor = 'Professor'
+}
+
 export type UnpublishLocaleInput = {
   /** Locales to unpublish */
   locale: Locale;
@@ -4356,16 +4276,16 @@ export type UserWhereUniqueInput = {
 
 export type Usuario = Node & {
   __typename?: 'Usuario';
-  age: Scalars['Int'];
-  bio?: Maybe<Scalars['String']>;
-  coach?: Maybe<Coach>;
+  avaliables: Array<Avaliable>;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
   createdBy?: Maybe<User>;
+  data_nascimento: Scalars['Date'];
   /** Get the document in other stages */
   documentInStages: Array<Usuario>;
-  genre?: Maybe<Genre>;
+  email: Scalars['String'];
+  genero?: Maybe<Genre>;
   /** List of Usuario versions */
   history: Array<Version>;
   /** The unique identifier */
@@ -4380,18 +4300,23 @@ export type Usuario = Node & {
   slug: Scalars['String'];
   /** System stage field */
   stage: Stage;
-  stature?: Maybe<Scalars['Int']>;
-  taxa_atividade?: Maybe<NivelAtividade>;
+  tipoUsuario: TipoUsuario;
   /** The time the document was updated */
   updatedAt: Scalars['DateTime'];
   /** User that last updated this document */
   updatedBy?: Maybe<User>;
-  weight: Scalars['Float'];
 };
 
 
-export type UsuarioCoachArgs = {
+export type UsuarioAvaliablesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
   locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<AvaliableOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<AvaliableWhereInput>;
 };
 
 
@@ -4457,18 +4382,17 @@ export type UsuarioConnection = {
 };
 
 export type UsuarioCreateInput = {
-  age: Scalars['Int'];
-  bio?: InputMaybe<Scalars['String']>;
-  coach?: InputMaybe<CoachCreateOneInlineInput>;
+  avaliables?: InputMaybe<AvaliableCreateManyInlineInput>;
+  cl58gnfaf53u101upg1smeoyv?: InputMaybe<CoachCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  genre?: InputMaybe<Genre>;
+  data_nascimento: Scalars['Date'];
+  email: Scalars['String'];
+  genero?: InputMaybe<Genre>;
   name: Scalars['String'];
   picture: AssetCreateOneInlineInput;
   slug: Scalars['String'];
-  stature?: InputMaybe<Scalars['Int']>;
-  taxa_atividade?: InputMaybe<NivelAtividade>;
+  tipoUsuario: TipoUsuario;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
-  weight: Scalars['Float'];
 };
 
 export type UsuarioCreateManyInlineInput = {
@@ -4504,41 +4428,9 @@ export type UsuarioManyWhereInput = {
   OR?: InputMaybe<Array<UsuarioWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
-  age?: InputMaybe<Scalars['Int']>;
-  /** All values greater than the given value. */
-  age_gt?: InputMaybe<Scalars['Int']>;
-  /** All values greater than or equal the given value. */
-  age_gte?: InputMaybe<Scalars['Int']>;
-  /** All values that are contained in given list. */
-  age_in?: InputMaybe<Array<Scalars['Int']>>;
-  /** All values less than the given value. */
-  age_lt?: InputMaybe<Scalars['Int']>;
-  /** All values less than or equal the given value. */
-  age_lte?: InputMaybe<Scalars['Int']>;
-  /** All values that are not equal to given value. */
-  age_not?: InputMaybe<Scalars['Int']>;
-  /** All values that are not contained in given list. */
-  age_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  bio?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  bio_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  bio_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  bio_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  bio_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  bio_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  bio_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  bio_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  bio_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  bio_starts_with?: InputMaybe<Scalars['String']>;
-  coach?: InputMaybe<CoachWhereInput>;
+  avaliables_every?: InputMaybe<AvaliableWhereInput>;
+  avaliables_none?: InputMaybe<AvaliableWhereInput>;
+  avaliables_some?: InputMaybe<AvaliableWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -4555,13 +4447,47 @@ export type UsuarioManyWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   createdBy?: InputMaybe<UserWhereInput>;
-  genre?: InputMaybe<Genre>;
+  data_nascimento?: InputMaybe<Scalars['Date']>;
+  /** All values greater than the given value. */
+  data_nascimento_gt?: InputMaybe<Scalars['Date']>;
+  /** All values greater than or equal the given value. */
+  data_nascimento_gte?: InputMaybe<Scalars['Date']>;
   /** All values that are contained in given list. */
-  genre_in?: InputMaybe<Array<Genre>>;
+  data_nascimento_in?: InputMaybe<Array<Scalars['Date']>>;
+  /** All values less than the given value. */
+  data_nascimento_lt?: InputMaybe<Scalars['Date']>;
+  /** All values less than or equal the given value. */
+  data_nascimento_lte?: InputMaybe<Scalars['Date']>;
   /** All values that are not equal to given value. */
-  genre_not?: InputMaybe<Genre>;
+  data_nascimento_not?: InputMaybe<Scalars['Date']>;
   /** All values that are not contained in given list. */
-  genre_not_in?: InputMaybe<Array<Genre>>;
+  data_nascimento_not_in?: InputMaybe<Array<Scalars['Date']>>;
+  email?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  email_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  email_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  email_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  email_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  email_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  email_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  email_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  email_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  email_starts_with?: InputMaybe<Scalars['String']>;
+  genero?: InputMaybe<Genre>;
+  /** All values that are contained in given list. */
+  genero_in?: InputMaybe<Array<Genre>>;
+  /** All values that are not equal to given value. */
+  genero_not?: InputMaybe<Genre>;
+  /** All values that are not contained in given list. */
+  genero_not_in?: InputMaybe<Array<Genre>>;
   id?: InputMaybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']>;
@@ -4639,28 +4565,13 @@ export type UsuarioManyWhereInput = {
   slug_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   slug_starts_with?: InputMaybe<Scalars['String']>;
-  stature?: InputMaybe<Scalars['Int']>;
-  /** All values greater than the given value. */
-  stature_gt?: InputMaybe<Scalars['Int']>;
-  /** All values greater than or equal the given value. */
-  stature_gte?: InputMaybe<Scalars['Int']>;
+  tipoUsuario?: InputMaybe<TipoUsuario>;
   /** All values that are contained in given list. */
-  stature_in?: InputMaybe<Array<Scalars['Int']>>;
-  /** All values less than the given value. */
-  stature_lt?: InputMaybe<Scalars['Int']>;
-  /** All values less than or equal the given value. */
-  stature_lte?: InputMaybe<Scalars['Int']>;
+  tipoUsuario_in?: InputMaybe<Array<TipoUsuario>>;
   /** All values that are not equal to given value. */
-  stature_not?: InputMaybe<Scalars['Int']>;
+  tipoUsuario_not?: InputMaybe<TipoUsuario>;
   /** All values that are not contained in given list. */
-  stature_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  taxa_atividade?: InputMaybe<NivelAtividade>;
-  /** All values that are contained in given list. */
-  taxa_atividade_in?: InputMaybe<Array<NivelAtividade>>;
-  /** All values that are not equal to given value. */
-  taxa_atividade_not?: InputMaybe<NivelAtividade>;
-  /** All values that are not contained in given list. */
-  taxa_atividade_not_in?: InputMaybe<Array<NivelAtividade>>;
+  tipoUsuario_not_in?: InputMaybe<Array<TipoUsuario>>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -4677,32 +4588,17 @@ export type UsuarioManyWhereInput = {
   /** All values that are not contained in given list. */
   updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   updatedBy?: InputMaybe<UserWhereInput>;
-  weight?: InputMaybe<Scalars['Float']>;
-  /** All values greater than the given value. */
-  weight_gt?: InputMaybe<Scalars['Float']>;
-  /** All values greater than or equal the given value. */
-  weight_gte?: InputMaybe<Scalars['Float']>;
-  /** All values that are contained in given list. */
-  weight_in?: InputMaybe<Array<Scalars['Float']>>;
-  /** All values less than the given value. */
-  weight_lt?: InputMaybe<Scalars['Float']>;
-  /** All values less than or equal the given value. */
-  weight_lte?: InputMaybe<Scalars['Float']>;
-  /** All values that are not equal to given value. */
-  weight_not?: InputMaybe<Scalars['Float']>;
-  /** All values that are not contained in given list. */
-  weight_not_in?: InputMaybe<Array<Scalars['Float']>>;
 };
 
 export enum UsuarioOrderByInput {
-  AgeAsc = 'age_ASC',
-  AgeDesc = 'age_DESC',
-  BioAsc = 'bio_ASC',
-  BioDesc = 'bio_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
-  GenreAsc = 'genre_ASC',
-  GenreDesc = 'genre_DESC',
+  DataNascimentoAsc = 'data_nascimento_ASC',
+  DataNascimentoDesc = 'data_nascimento_DESC',
+  EmailAsc = 'email_ASC',
+  EmailDesc = 'email_DESC',
+  GeneroAsc = 'genero_ASC',
+  GeneroDesc = 'genero_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
   NameAsc = 'name_ASC',
@@ -4711,27 +4607,22 @@ export enum UsuarioOrderByInput {
   PublishedAtDesc = 'publishedAt_DESC',
   SlugAsc = 'slug_ASC',
   SlugDesc = 'slug_DESC',
-  StatureAsc = 'stature_ASC',
-  StatureDesc = 'stature_DESC',
-  TaxaAtividadeAsc = 'taxa_atividade_ASC',
-  TaxaAtividadeDesc = 'taxa_atividade_DESC',
+  TipoUsuarioAsc = 'tipoUsuario_ASC',
+  TipoUsuarioDesc = 'tipoUsuario_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC',
-  WeightAsc = 'weight_ASC',
-  WeightDesc = 'weight_DESC'
+  UpdatedAtDesc = 'updatedAt_DESC'
 }
 
 export type UsuarioUpdateInput = {
-  age?: InputMaybe<Scalars['Int']>;
-  bio?: InputMaybe<Scalars['String']>;
-  coach?: InputMaybe<CoachUpdateOneInlineInput>;
-  genre?: InputMaybe<Genre>;
+  avaliables?: InputMaybe<AvaliableUpdateManyInlineInput>;
+  cl58gnfaf53u101upg1smeoyv?: InputMaybe<CoachUpdateManyInlineInput>;
+  data_nascimento?: InputMaybe<Scalars['Date']>;
+  email?: InputMaybe<Scalars['String']>;
+  genero?: InputMaybe<Genre>;
   name?: InputMaybe<Scalars['String']>;
   picture?: InputMaybe<AssetUpdateOneInlineInput>;
   slug?: InputMaybe<Scalars['String']>;
-  stature?: InputMaybe<Scalars['Int']>;
-  taxa_atividade?: InputMaybe<NivelAtividade>;
-  weight?: InputMaybe<Scalars['Float']>;
+  tipoUsuario?: InputMaybe<TipoUsuario>;
 };
 
 export type UsuarioUpdateManyInlineInput = {
@@ -4752,12 +4643,10 @@ export type UsuarioUpdateManyInlineInput = {
 };
 
 export type UsuarioUpdateManyInput = {
-  age?: InputMaybe<Scalars['Int']>;
-  bio?: InputMaybe<Scalars['String']>;
-  genre?: InputMaybe<Genre>;
-  stature?: InputMaybe<Scalars['Int']>;
-  taxa_atividade?: InputMaybe<NivelAtividade>;
-  weight?: InputMaybe<Scalars['Float']>;
+  data_nascimento?: InputMaybe<Scalars['Date']>;
+  email?: InputMaybe<Scalars['String']>;
+  genero?: InputMaybe<Genre>;
+  tipoUsuario?: InputMaybe<TipoUsuario>;
 };
 
 export type UsuarioUpdateManyWithNestedWhereInput = {
@@ -4813,41 +4702,9 @@ export type UsuarioWhereInput = {
   OR?: InputMaybe<Array<UsuarioWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
-  age?: InputMaybe<Scalars['Int']>;
-  /** All values greater than the given value. */
-  age_gt?: InputMaybe<Scalars['Int']>;
-  /** All values greater than or equal the given value. */
-  age_gte?: InputMaybe<Scalars['Int']>;
-  /** All values that are contained in given list. */
-  age_in?: InputMaybe<Array<Scalars['Int']>>;
-  /** All values less than the given value. */
-  age_lt?: InputMaybe<Scalars['Int']>;
-  /** All values less than or equal the given value. */
-  age_lte?: InputMaybe<Scalars['Int']>;
-  /** All values that are not equal to given value. */
-  age_not?: InputMaybe<Scalars['Int']>;
-  /** All values that are not contained in given list. */
-  age_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  bio?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  bio_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  bio_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  bio_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values that are not equal to given value. */
-  bio_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  bio_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  bio_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  bio_not_in?: InputMaybe<Array<Scalars['String']>>;
-  /** All values not starting with the given string. */
-  bio_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  bio_starts_with?: InputMaybe<Scalars['String']>;
-  coach?: InputMaybe<CoachWhereInput>;
+  avaliables_every?: InputMaybe<AvaliableWhereInput>;
+  avaliables_none?: InputMaybe<AvaliableWhereInput>;
+  avaliables_some?: InputMaybe<AvaliableWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -4864,13 +4721,47 @@ export type UsuarioWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   createdBy?: InputMaybe<UserWhereInput>;
-  genre?: InputMaybe<Genre>;
+  data_nascimento?: InputMaybe<Scalars['Date']>;
+  /** All values greater than the given value. */
+  data_nascimento_gt?: InputMaybe<Scalars['Date']>;
+  /** All values greater than or equal the given value. */
+  data_nascimento_gte?: InputMaybe<Scalars['Date']>;
   /** All values that are contained in given list. */
-  genre_in?: InputMaybe<Array<Genre>>;
+  data_nascimento_in?: InputMaybe<Array<Scalars['Date']>>;
+  /** All values less than the given value. */
+  data_nascimento_lt?: InputMaybe<Scalars['Date']>;
+  /** All values less than or equal the given value. */
+  data_nascimento_lte?: InputMaybe<Scalars['Date']>;
   /** All values that are not equal to given value. */
-  genre_not?: InputMaybe<Genre>;
+  data_nascimento_not?: InputMaybe<Scalars['Date']>;
   /** All values that are not contained in given list. */
-  genre_not_in?: InputMaybe<Array<Genre>>;
+  data_nascimento_not_in?: InputMaybe<Array<Scalars['Date']>>;
+  email?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  email_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  email_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  email_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  email_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  email_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  email_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  email_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  email_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  email_starts_with?: InputMaybe<Scalars['String']>;
+  genero?: InputMaybe<Genre>;
+  /** All values that are contained in given list. */
+  genero_in?: InputMaybe<Array<Genre>>;
+  /** All values that are not equal to given value. */
+  genero_not?: InputMaybe<Genre>;
+  /** All values that are not contained in given list. */
+  genero_not_in?: InputMaybe<Array<Genre>>;
   id?: InputMaybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']>;
@@ -4948,28 +4839,13 @@ export type UsuarioWhereInput = {
   slug_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   slug_starts_with?: InputMaybe<Scalars['String']>;
-  stature?: InputMaybe<Scalars['Int']>;
-  /** All values greater than the given value. */
-  stature_gt?: InputMaybe<Scalars['Int']>;
-  /** All values greater than or equal the given value. */
-  stature_gte?: InputMaybe<Scalars['Int']>;
+  tipoUsuario?: InputMaybe<TipoUsuario>;
   /** All values that are contained in given list. */
-  stature_in?: InputMaybe<Array<Scalars['Int']>>;
-  /** All values less than the given value. */
-  stature_lt?: InputMaybe<Scalars['Int']>;
-  /** All values less than or equal the given value. */
-  stature_lte?: InputMaybe<Scalars['Int']>;
+  tipoUsuario_in?: InputMaybe<Array<TipoUsuario>>;
   /** All values that are not equal to given value. */
-  stature_not?: InputMaybe<Scalars['Int']>;
+  tipoUsuario_not?: InputMaybe<TipoUsuario>;
   /** All values that are not contained in given list. */
-  stature_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  taxa_atividade?: InputMaybe<NivelAtividade>;
-  /** All values that are contained in given list. */
-  taxa_atividade_in?: InputMaybe<Array<NivelAtividade>>;
-  /** All values that are not equal to given value. */
-  taxa_atividade_not?: InputMaybe<NivelAtividade>;
-  /** All values that are not contained in given list. */
-  taxa_atividade_not_in?: InputMaybe<Array<NivelAtividade>>;
+  tipoUsuario_not_in?: InputMaybe<Array<TipoUsuario>>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -4986,21 +4862,6 @@ export type UsuarioWhereInput = {
   /** All values that are not contained in given list. */
   updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   updatedBy?: InputMaybe<UserWhereInput>;
-  weight?: InputMaybe<Scalars['Float']>;
-  /** All values greater than the given value. */
-  weight_gt?: InputMaybe<Scalars['Float']>;
-  /** All values greater than or equal the given value. */
-  weight_gte?: InputMaybe<Scalars['Float']>;
-  /** All values that are contained in given list. */
-  weight_in?: InputMaybe<Array<Scalars['Float']>>;
-  /** All values less than the given value. */
-  weight_lt?: InputMaybe<Scalars['Float']>;
-  /** All values less than or equal the given value. */
-  weight_lte?: InputMaybe<Scalars['Float']>;
-  /** All values that are not equal to given value. */
-  weight_not?: InputMaybe<Scalars['Float']>;
-  /** All values that are not contained in given list. */
-  weight_not_in?: InputMaybe<Array<Scalars['Float']>>;
 };
 
 /** References Usuario record uniquely */
@@ -5103,84 +4964,194 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
-export type CoachforStudantsQueryVariables = Exact<{ [key: string]: never; }>;
+export type TodosAlunosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CoachforStudantsQuery = { __typename?: 'Query', coach?: { __typename?: 'Coach', bio?: string | null, id: string, name: string, usuarios: Array<{ __typename?: 'Usuario', age: number, bio?: string | null, genre?: Genre | null, id: string, name: string, slug: string, stature?: number | null, weight: number, taxa_atividade?: NivelAtividade | null, picture: { __typename?: 'Asset', url: string } }> } | null };
+export type TodosAlunosQuery = { __typename?: 'Query', usuarios: Array<{ __typename?: 'Usuario', data_nascimento: any, createdAt: any, genero?: Genre | null, id: string, name: string, slug: string, tipoUsuario: TipoUsuario, email: string, picture: { __typename?: 'Asset', url: string } }> };
 
-export type GetStudentsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetStudentsQuery = { __typename?: 'Query', usuarios: Array<{ __typename?: 'Usuario', name: string, slug: string, bio?: string | null, age: number, weight: number, stature?: number | null, genre?: Genre | null, id: string, coach?: { __typename?: 'Coach', name: string, slug: string, bio?: string | null, id: string } | null, picture: { __typename?: 'Asset', url: string } }> };
+export type AvaliacoesProfessorQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const CoachforStudantsDocument = gql`
-    query CoachforStudants {
-  coach(where: {slug: "paulao"}) {
-    bio
+export type AvaliacoesProfessorQuery = { __typename?: 'Query', avaliables: Array<{ __typename?: 'Avaliable', avaliableForCoach?: { __typename?: 'Coach', especialidade: string, id: string, slug: string, usuario?: { __typename?: 'Usuario', tipoUsuario: TipoUsuario } | null, avaliables: Array<{ __typename?: 'Avaliable', id: string, date: any, estatura: number, peso: number, nivelAtividade: NivelAtividade, usuario?: { __typename?: 'Usuario', id: string, name: string, genero?: Genre | null, data_nascimento: any, tipoUsuario: TipoUsuario, picture: { __typename?: 'Asset', url: string } } | null }> } | null }> };
+
+export type ProfessoresQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProfessoresQuery = { __typename?: 'Query', coaches: Array<{ __typename?: 'Coach', id: string, slug: string, usuario?: { __typename?: 'Usuario', name: string, genero?: Genre | null, tipoUsuario: TipoUsuario, slug: string, data_nascimento: any, createdAt: any, id: string, email: string, picture: { __typename?: 'Asset', url: string } } | null }> };
+
+export type UsuarioQueryVariables = Exact<{
+  slug?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UsuarioQuery = { __typename?: 'Query', usuario?: { __typename?: 'Usuario', email: string, data_nascimento: any, name: string, id: string, slug: string, tipoUsuario: TipoUsuario, genero?: Genre | null, picture: { __typename?: 'Asset', url: string } } | null };
+
+export type UsuariosQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UsuariosQuery = { __typename?: 'Query', usuarios: Array<{ __typename?: 'Usuario', email: string, genero?: Genre | null, id: string, name: string, tipoUsuario: TipoUsuario, data_nascimento: any }> };
+
+
+export const TodosAlunosDocument = gql`
+    query TodosAlunos {
+  usuarios(where: {tipoUsuario: Aluno}) {
+    data_nascimento
+    createdAt
+    genero
     id
     name
-    usuarios {
-      age
-      bio
-      genre
-      id
-      name
-      picture {
-        url
+    slug
+    tipoUsuario
+    picture {
+      url
+    }
+    email
+  }
+}
+    `;
+
+/**
+ * __useTodosAlunosQuery__
+ *
+ * To run a query within a React component, call `useTodosAlunosQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTodosAlunosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTodosAlunosQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTodosAlunosQuery(baseOptions?: Apollo.QueryHookOptions<TodosAlunosQuery, TodosAlunosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TodosAlunosQuery, TodosAlunosQueryVariables>(TodosAlunosDocument, options);
       }
+export function useTodosAlunosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TodosAlunosQuery, TodosAlunosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TodosAlunosQuery, TodosAlunosQueryVariables>(TodosAlunosDocument, options);
+        }
+export type TodosAlunosQueryHookResult = ReturnType<typeof useTodosAlunosQuery>;
+export type TodosAlunosLazyQueryHookResult = ReturnType<typeof useTodosAlunosLazyQuery>;
+export type TodosAlunosQueryResult = Apollo.QueryResult<TodosAlunosQuery, TodosAlunosQueryVariables>;
+export const AvaliacoesProfessorDocument = gql`
+    query AvaliacoesProfessor {
+  avaliables {
+    avaliableForCoach {
+      especialidade
+      id
       slug
-      stature
-      weight
-      taxa_atividade
+      usuario {
+        tipoUsuario
+      }
+      avaliables {
+        id
+        date
+        estatura
+        peso
+        nivelAtividade
+        usuario {
+          id
+          name
+          genero
+          data_nascimento
+          tipoUsuario
+          picture {
+            url
+          }
+        }
+      }
     }
   }
 }
     `;
 
 /**
- * __useCoachforStudantsQuery__
+ * __useAvaliacoesProfessorQuery__
  *
- * To run a query within a React component, call `useCoachforStudantsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCoachforStudantsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useAvaliacoesProfessorQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAvaliacoesProfessorQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCoachforStudantsQuery({
+ * const { data, loading, error } = useAvaliacoesProfessorQuery({
  *   variables: {
  *   },
  * });
  */
-export function useCoachforStudantsQuery(baseOptions?: Apollo.QueryHookOptions<CoachforStudantsQuery, CoachforStudantsQueryVariables>) {
+export function useAvaliacoesProfessorQuery(baseOptions?: Apollo.QueryHookOptions<AvaliacoesProfessorQuery, AvaliacoesProfessorQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CoachforStudantsQuery, CoachforStudantsQueryVariables>(CoachforStudantsDocument, options);
+        return Apollo.useQuery<AvaliacoesProfessorQuery, AvaliacoesProfessorQueryVariables>(AvaliacoesProfessorDocument, options);
       }
-export function useCoachforStudantsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CoachforStudantsQuery, CoachforStudantsQueryVariables>) {
+export function useAvaliacoesProfessorLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AvaliacoesProfessorQuery, AvaliacoesProfessorQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CoachforStudantsQuery, CoachforStudantsQueryVariables>(CoachforStudantsDocument, options);
+          return Apollo.useLazyQuery<AvaliacoesProfessorQuery, AvaliacoesProfessorQueryVariables>(AvaliacoesProfessorDocument, options);
         }
-export type CoachforStudantsQueryHookResult = ReturnType<typeof useCoachforStudantsQuery>;
-export type CoachforStudantsLazyQueryHookResult = ReturnType<typeof useCoachforStudantsLazyQuery>;
-export type CoachforStudantsQueryResult = Apollo.QueryResult<CoachforStudantsQuery, CoachforStudantsQueryVariables>;
-export const GetStudentsDocument = gql`
-    query GetStudents {
-  usuarios(orderBy: name_ASC) {
-    name
-    slug
-    bio
-    age
-    weight
-    stature
-    genre
+export type AvaliacoesProfessorQueryHookResult = ReturnType<typeof useAvaliacoesProfessorQuery>;
+export type AvaliacoesProfessorLazyQueryHookResult = ReturnType<typeof useAvaliacoesProfessorLazyQuery>;
+export type AvaliacoesProfessorQueryResult = Apollo.QueryResult<AvaliacoesProfessorQuery, AvaliacoesProfessorQueryVariables>;
+export const ProfessoresDocument = gql`
+    query Professores {
+  coaches {
     id
-    coach {
+    slug
+    usuario {
       name
+      genero
+      tipoUsuario
       slug
-      bio
+      data_nascimento
+      picture {
+        url
+      }
+      createdAt
       id
+      email
     }
+  }
+}
+    `;
+
+/**
+ * __useProfessoresQuery__
+ *
+ * To run a query within a React component, call `useProfessoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProfessoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProfessoresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProfessoresQuery(baseOptions?: Apollo.QueryHookOptions<ProfessoresQuery, ProfessoresQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProfessoresQuery, ProfessoresQueryVariables>(ProfessoresDocument, options);
+      }
+export function useProfessoresLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfessoresQuery, ProfessoresQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProfessoresQuery, ProfessoresQueryVariables>(ProfessoresDocument, options);
+        }
+export type ProfessoresQueryHookResult = ReturnType<typeof useProfessoresQuery>;
+export type ProfessoresLazyQueryHookResult = ReturnType<typeof useProfessoresLazyQuery>;
+export type ProfessoresQueryResult = Apollo.QueryResult<ProfessoresQuery, ProfessoresQueryVariables>;
+export const UsuarioDocument = gql`
+    query Usuario($slug: String) {
+  usuario(where: {slug: $slug}) {
+    email
+    data_nascimento
+    name
+    id
+    slug
+    tipoUsuario
+    genero
     picture {
       url
     }
@@ -5189,28 +5160,68 @@ export const GetStudentsDocument = gql`
     `;
 
 /**
- * __useGetStudentsQuery__
+ * __useUsuarioQuery__
  *
- * To run a query within a React component, call `useGetStudentsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetStudentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUsuarioQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsuarioQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetStudentsQuery({
+ * const { data, loading, error } = useUsuarioQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useUsuarioQuery(baseOptions?: Apollo.QueryHookOptions<UsuarioQuery, UsuarioQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsuarioQuery, UsuarioQueryVariables>(UsuarioDocument, options);
+      }
+export function useUsuarioLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsuarioQuery, UsuarioQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsuarioQuery, UsuarioQueryVariables>(UsuarioDocument, options);
+        }
+export type UsuarioQueryHookResult = ReturnType<typeof useUsuarioQuery>;
+export type UsuarioLazyQueryHookResult = ReturnType<typeof useUsuarioLazyQuery>;
+export type UsuarioQueryResult = Apollo.QueryResult<UsuarioQuery, UsuarioQueryVariables>;
+export const UsuariosDocument = gql`
+    query Usuarios {
+  usuarios {
+    email
+    genero
+    id
+    name
+    tipoUsuario
+    data_nascimento
+  }
+}
+    `;
+
+/**
+ * __useUsuariosQuery__
+ *
+ * To run a query within a React component, call `useUsuariosQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsuariosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsuariosQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetStudentsQuery(baseOptions?: Apollo.QueryHookOptions<GetStudentsQuery, GetStudentsQueryVariables>) {
+export function useUsuariosQuery(baseOptions?: Apollo.QueryHookOptions<UsuariosQuery, UsuariosQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetStudentsQuery, GetStudentsQueryVariables>(GetStudentsDocument, options);
+        return Apollo.useQuery<UsuariosQuery, UsuariosQueryVariables>(UsuariosDocument, options);
       }
-export function useGetStudentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStudentsQuery, GetStudentsQueryVariables>) {
+export function useUsuariosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsuariosQuery, UsuariosQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetStudentsQuery, GetStudentsQueryVariables>(GetStudentsDocument, options);
+          return Apollo.useLazyQuery<UsuariosQuery, UsuariosQueryVariables>(UsuariosDocument, options);
         }
-export type GetStudentsQueryHookResult = ReturnType<typeof useGetStudentsQuery>;
-export type GetStudentsLazyQueryHookResult = ReturnType<typeof useGetStudentsLazyQuery>;
-export type GetStudentsQueryResult = Apollo.QueryResult<GetStudentsQuery, GetStudentsQueryVariables>;
+export type UsuariosQueryHookResult = ReturnType<typeof useUsuariosQuery>;
+export type UsuariosLazyQueryHookResult = ReturnType<typeof useUsuariosLazyQuery>;
+export type UsuariosQueryResult = Apollo.QueryResult<UsuariosQuery, UsuariosQueryVariables>;

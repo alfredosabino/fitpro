@@ -1,0 +1,10 @@
+query Usuarios {
+  usuarios {
+    email
+    genero
+    id
+    name
+    tipoUsuario
+    data_nascimento
+  }
+}

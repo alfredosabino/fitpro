@@ -1,0 +1,15 @@
+query TodosAlunos {
+  usuarios(where: {tipoUsuario: Aluno}) {
+    data_nascimento
+    createdAt
+    genero
+    id
+    name
+    slug
+    tipoUsuario
+    picture {
+      url
+    }
+    email
+  }
+}

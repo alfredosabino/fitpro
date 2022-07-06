@@ -1,0 +1,19 @@
+query Professores {
+  coaches {
+    id
+    slug
+    usuario {
+      name
+      genero
+      tipoUsuario
+      slug
+      data_nascimento
+      picture {
+        url
+      }
+      createdAt
+      id
+      email
+    }
+  }
+}

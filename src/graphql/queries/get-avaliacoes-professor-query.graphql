@@ -1,0 +1,29 @@
+query AvaliacoesProfessor {
+  avaliables {
+    avaliableForCoach {
+      especialidade
+      id
+      slug
+      usuario {
+        tipoUsuario
+      }
+      avaliables {
+        id
+        date
+        estatura
+        peso
+        nivelAtividade
+        usuario {
+          id
+          name
+          genero
+          data_nascimento
+          tipoUsuario
+          picture {
+            url
+          }
+        }
+      }
+    }
+  }
+}

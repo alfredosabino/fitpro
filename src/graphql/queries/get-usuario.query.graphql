@@ -1,0 +1,14 @@
+query Usuario($slug: String) {
+  usuario(where: {slug: $slug}) {
+    email
+    data_nascimento
+    name
+    id
+    slug
+    tipoUsuario
+    genero
+    picture {
+      url
+    }
+  }
+}
