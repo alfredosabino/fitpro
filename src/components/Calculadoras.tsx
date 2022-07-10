@@ -1,3 +1,9 @@
+export function CalculadoraAgua(pe: Number){
+    const peso = pe
+    const consumoAgua = peso * 35
+    return consumoAgua
+}
+
 export function CalculadoraIMC(est: Number, pe: Number) {
     const alt = (est * 0.01)
     const imc = (pe / (alt * alt)).toFixed(1)
@@ -52,6 +58,6 @@ export function CalculadoraTMB(genre: String, age: Number, stature: Number, weig
             )
         ) : null
     )
-    return tmb.toFixed(0)
+    return tmb
 
 }

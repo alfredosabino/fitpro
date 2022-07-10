@@ -1,17 +1,4 @@
-import { useUsuarioQuery } from "../../graphql/generated"
-
-interface UserProps {
-    slugUser: string
-}
-
-
-export function User(props: UserProps) {
-    const {data} = useUsuarioQuery({
-        variables: {
-            slug: props.slugUser
-        }
-    })
-    console.log(data)
+export function User() {
     return (
         <div className="flex flex-1 items-center justify-start p-4 rounded-lg bg-gray-500">
             <img

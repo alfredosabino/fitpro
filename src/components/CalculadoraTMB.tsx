@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 export function CalculadoraTMB() {
+    const [nome, setNome] = useState('')
     const [atividade, setAtividade] = useState('')
     const [sexo, setSexo] = useState('')
     const [peso, setPeso] = useState('')
@@ -37,63 +38,69 @@ export function CalculadoraTMB() {
                 Calculadora Taxa Metabólica Basal
             </span>
             <div className="flex mt-4">
-                <form action="" className="flex flex-col justify-center items-center w-full ">
-                    <div className="flex justify-between p-2">
-                        <legend className="mr-2">
-                            Genero:
-                            <select
-                                className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
-                                onChange={event => setSexo(event.target.value)}
-                            >
-                                <option value={taxaGenero.masculino.label}>Masculino</option>
-                                <option value={taxaGenero.feminino.label}>Feminino</option>
-                            </select>
-                        </legend>
-                        <legend className="ml-2">
-                            Nivel de Atividade:
-                            <select
-                                className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
-                                onChange={event => setAtividade(event.target.value)}
-                            >
-                                <option value={taxaAtividade.sedentario}>Sedentário</option>
-                                <option value={taxaAtividade.levemente_ativo}>Levemente ativo</option>
-                                <option value={taxaAtividade.moderadamente_ativo}>Moderadamente ativo</option>
-                                <option value={taxaAtividade.altamente_ativo}>Altamente ativo</option>
-                                <option value={taxaAtividade.extremamente_ativo}>Extremamente ativo</option>
-                            </select>
-                        </legend>
-                    </div>
-                    <div className="flex justify-around p-2">
-                        <legend className="mr-2">
-                            Idade:
-                            <input
-                                type="number"
-                                className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
-                                placeholder="Idade"
-                                onChange={event => setIdade(event.target.value)}
-                            />
-                        </legend>
-                        <legend className="ml-2">
-                            Estatura:
-                            <input
-                                type="number"
-                                className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
-                                placeholder="Estatura"
-                                onChange={event => setEstatura(event.target.value)}
-                            />
-                        </legend>
-                        <legend className="ml-2">
-                            Peso:
-                            <input
-                                type="number"
-                                className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
-                                placeholder="Peso"
-                                onChange={event => setPeso(event.target.value)}
-                            />
-                        </legend>
-                    </div>
-                    <span className="pt-2 text-green-400 text-xl font-base">
-                        Metabolismo basal:{' '}
+                <form action="" className="flex flex-col justify-center w-full ">
+                    <legend>
+                        Nome:
+                        <input
+                            type="text"
+                            className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                            placeholder="Nome"
+                            onChange={event => setNome(event.target.value)}
+                        />
+                    </legend>
+                    <legend>
+                        Genero:
+                        <select
+                            className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                            onChange={event => setSexo(event.target.value)}
+                        >
+                            <option>-</option>
+                            <option value={taxaGenero.masculino.label}>Masculino</option>
+                            <option value={taxaGenero.feminino.label}>Feminino</option>
+                        </select>
+                    </legend>
+                    <legend>
+                        Idade:
+                        <input
+                            type="number"
+                            className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                            placeholder="Idade"
+                            onChange={event => setIdade(event.target.value)}
+                        />
+                    </legend>
+                    <legend>
+                        Estatura:
+                        <input
+                            type="number"
+                            className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                            placeholder="Estatura"
+                            onChange={event => setEstatura(event.target.value)}
+                        />
+                    </legend>
+                    <legend>
+                        Peso:
+                        <input
+                            type="number"
+                            className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                            placeholder="Peso"
+                            onChange={event => setPeso(event.target.value)}
+                        />
+                    </legend>
+                    <legend>
+                        Nivel de Atividade:
+                        <select
+                            className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                            onChange={event => setAtividade(event.target.value)}
+                        >
+                            <option value={taxaAtividade.sedentario}>Sedentário</option>
+                            <option value={taxaAtividade.levemente_ativo}>Levemente ativo</option>
+                            <option value={taxaAtividade.moderadamente_ativo}>Moderadamente ativo</option>
+                            <option value={taxaAtividade.altamente_ativo}>Altamente ativo</option>
+                            <option value={taxaAtividade.extremamente_ativo}>Extremamente ativo</option>
+                        </select>
+                    </legend>
+                    <span className="mt-4 text-green-400 text-xl font-base flex justify-center">
+                        Metabolismo Basal:{' '}
                         {sexo === 'masculino' ? (atividade * (
                             taxaGenero.masculino.valtot + (
                                 (taxaGenero.masculino.valpeso * peso)
