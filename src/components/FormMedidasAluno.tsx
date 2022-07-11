@@ -3,37 +3,22 @@ import { useState } from "react";
 import { Card } from "./Card/Card";
 import { TitleCard } from "./Card/TitleCard";
 
-import { CalculadoraAgua, CalculadoraIMC, CalculadoraTMB } from "./Calculadoras";
+import { CalculadoraAgua, CalculadoraIMC, CalculadoraMacros, CalculadoraTMB } from "./Calculator/Calculadoras";
 
 export function FormMedidasAluno() {
     const [nome, setNome] = useState('')
+    const [biotipo, setBiotipo] = useState('')
     const [atividade, setAtividade] = useState('')
     const [sexo, setSexo] = useState('')
     const [peso, setPeso] = useState('')
     const [estatura, setEstatura] = useState('')
     const [idade, setIdade] = useState('')
-    const taxaAtividade = {
-        sedentario: 1.2,
-        levemente_ativo: 1.375,
-        moderadamente_ativo: 1.55,
-        altamente_ativo: 1.725,
-        extremamente_ativo: 1.9
-    }
-
-    const taxaGenero = {
-        masculino: {
-            label: 'masculino'
-        },
-        feminino: {
-            label: 'feminino'
-        }
-    }
 
     return (
         <div className="flex w-full">
             <Card>
                 <TitleCard title={"Avaliação"} />
-                <div className="flex justify-center">
+                <div className="flex justify-center p-4 bg-gray-800 border border-2 border-blue-700 rounded-xl h-full">
                     <form className="grid item-center w-full">
                         <legend>
                             Nome:
@@ -53,6 +38,18 @@ export function FormMedidasAluno() {
                                 <option>-</option>
                                 <option value='male'>Masculino</option>
                                 <option value='female'>Feminino</option>
+                            </select>
+                        </legend>
+                        <legend>
+                            Genero:
+                            <select
+                                className="p-2 rounded-lg w-full text-gray-800 font-base text-center"
+                                onChange={event => setBiotipo(event.target.value)}
+                            >
+                                <option>-</option>
+                                <option value='ecto'>Ectomorfo</option>
+                                <option value='meso'>Mesomorfo</option>
+                                <option value='endo'>Endomorfo</option>
                             </select>
                         </legend>
                         <legend>
@@ -104,10 +101,13 @@ export function FormMedidasAluno() {
                 <TitleCard title={"Situação Atual"} />
                 <div className="flex justify-between p-2">
                     <div className="flex flex-col text-xl font-semibold">
-                        <span>{nome}</span>
+                        <div>
+                            <span>{nome}</span>
+                            <small>{idade ? `, ${idade} anos` : null}</small>
+                        </div>
                         <div>
                             <small>{sexo == 'male' ? 'Masculino' : sexo == 'female' ? 'Feminino' : null}</small>
-                            <small>{idade ? `, ${idade} anos` : null}</small>
+                            <small>{biotipo == 'ecto' ? ', Ectomorfo' : biotipo == 'meso' ? ', Mesomorfo' : biotipo == 'endo' ? ', Endomorfo' : null}</small>
                         </div>
                     </div>
                     <div className="flex flex-col text-right">
@@ -167,6 +167,28 @@ export function FormMedidasAluno() {
                                     </span>
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            {CalculadoraMacros(
+                                CalculadoraTMB(sexo, idade, estatura, peso, atividade)
+                            ).map(Macros => {
+                                return (
+                                    <div className="flex justify-around bg-gray-800 rounded-xl border border-2 border-blue-700 p-3 mt-4">
+                                        <div className="flex flex-col items-center">
+                                            <span className="font-semibold">Carboidratos</span>
+                                            <span className="font-bold text-3xl">{Macros.macroCarboidrato?.toFixed(0)}g</span>
+                                        </div>
+                                        <div className="flex flex-col items-center">
+                                            <span className="font-semibold">Proteinas</span>
+                                            <span className="font-bold text-3xl">{Macros.macroProteico?.toFixed(0)}g</span>
+                                        </div>
+                                        <div className="flex flex-col items-center">
+                                            <span className="font-semibold">Gorduras</span>
+                                            <span className="font-bold text-3xl">{Macros.macroGordura?.toFixed(0)}g</span>
+                                        </div>
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>
                 </div>

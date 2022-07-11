@@ -1,9 +1,6 @@
 import { Content } from '../components/Layouts/Content/Content'
-import { Card } from '../components/Card/Card'
 
 import { FormMedidasAluno } from '../components/FormMedidasAluno'
-import { CalculadoraIMC } from '../components/CalculadoraIMC'
-import { CalculadoraTMB } from '../components/CalculadoraTMB'
 
 export function Dashboard() {
     return (

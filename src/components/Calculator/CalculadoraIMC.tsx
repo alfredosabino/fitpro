@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { CalculadoraAgua } from "./Calculadoras"
 
 export function CalculadoraIMC() {
     const [altura, setAltura] = useState('')

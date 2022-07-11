@@ -7,7 +7,6 @@ export function Header() {
             <div>
                 <Link to="/">
                     <div className="flex items-center">
-                        <Logo />
                         <span className="text-2xl text-semibold">Fitness Pro</span>
                     </div>
                 </Link>

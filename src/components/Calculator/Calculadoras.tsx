@@ -1,4 +1,4 @@
-export function CalculadoraAgua(pe: Number){
+export function CalculadoraAgua(pe: Number) {
     const peso = pe
     const consumoAgua = peso * 35
     return consumoAgua
@@ -60,4 +60,12 @@ export function CalculadoraTMB(genre: String, age: Number, stature: Number, weig
     )
     return tmb
 
+}
+
+export function CalculadoraMacros(tmb: Number) {
+    const macroCarboidrato = ((tmb * 40) / 100) / 4
+    const macroProteico = ((tmb * 40) / 100) / 4
+    const macroGordura = ((tmb * 20) / 100) / 9
+
+    return [{ macroCarboidrato, macroProteico, macroGordura, tmb }]
 }
