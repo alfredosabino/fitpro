@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export function MenuItems(props) {
+export function MenuItems(props: any) {
     return (
         <Link
             to={props.link}

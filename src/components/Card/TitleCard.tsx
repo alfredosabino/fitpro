@@ -1,4 +1,4 @@
-export function TitleCard(props) {
+export function TitleCard(props: any) {
 
     return (
         <span className="text-3xl font-semibold flex justify-start mb-4">

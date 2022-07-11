@@ -1,4 +1,4 @@
-export function InputForm(props) {
+export function InputForm(props: any) {
     return (
         <legend className="w-full">
             {props.name}:

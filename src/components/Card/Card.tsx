@@ -1,6 +1,4 @@
-import { TitleCard } from "./TitleCard";
-
-export function Card({ children }) {
+export function Card({ children }: any) {
 
     return (
         <div className="w-full h-auto border bg-gray-600 border-gray-500 rounded-lg m-2">
