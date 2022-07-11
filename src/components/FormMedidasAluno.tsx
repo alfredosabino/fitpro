@@ -6,19 +6,19 @@ import { TitleCard } from "./Card/TitleCard";
 import { CalculadoraAgua, CalculadoraIMC, CalculadoraMacros, CalculadoraTMB } from "./Calculator/Calculadoras";
 
 export function FormMedidasAluno() {
-    const [nome, setNome] = useState('')
-    const [biotipo, setBiotipo] = useState('')
-    const [atividade, setAtividade] = useState('')
-    const [sexo, setSexo] = useState('')
-    const [peso, setPeso] = useState('')
-    const [estatura, setEstatura] = useState('')
-    const [idade, setIdade] = useState('')
+    const [nome, setNome]: any = useState('')
+    const [biotipo, setBiotipo]: any = useState('')
+    const [atividade, setAtividade]: any = useState('')
+    const [sexo, setSexo]: any = useState('')
+    const [peso, setPeso]: any = useState('')
+    const [estatura, setEstatura]: any = useState('')
+    const [idade, setIdade]: any = useState('')
 
     return (
         <div className="flex w-full">
             <Card>
                 <TitleCard title={"Avaliação"} />
-                <div className="flex justify-center p-4 bg-gray-800 border border-2 border-blue-700 rounded-xl h-full">
+                <div className="flex justify-center p-4 bg-gray-800 border-2 border-blue-700 rounded-xl h-full">
                     <form className="grid item-center w-full">
                         <legend>
                             Nome:
@@ -173,7 +173,7 @@ export function FormMedidasAluno() {
                                 CalculadoraTMB(sexo, idade, estatura, peso, atividade)
                             ).map(Macros => {
                                 return (
-                                    <div className="flex justify-around bg-gray-800 rounded-xl border border-2 border-blue-700 p-3 mt-4">
+                                    <div className="flex justify-around bg-gray-800 rounded-xl border-2 border-blue-700 p-3 mt-4">
                                         <div className="flex flex-col items-center">
                                             <span className="font-semibold">Carboidratos</span>
                                             <span className="font-bold text-3xl">{Macros.macroCarboidrato?.toFixed(0)}g</span>

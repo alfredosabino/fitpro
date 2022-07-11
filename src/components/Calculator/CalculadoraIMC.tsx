@@ -1,8 +1,8 @@
 import { useState } from "react"
 
 export function CalculadoraIMC() {
-    const [altura, setAltura] = useState('')
-    const [peso, setPeso] = useState('')
+    const [altura, setAltura] : any = useState('')
+    const [peso, setPeso] : any = useState('')
     const altu = (altura * 0.01)
     const imc = (peso / (altu * altu)).toFixed(1)
 

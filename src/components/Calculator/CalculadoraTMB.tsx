@@ -1,13 +1,13 @@
 import { useState } from "react"
 
 export function CalculadoraTMB() {
-    const [nome, setNome] = useState('')
-    const [atividade, setAtividade] = useState('')
-    const [sexo, setSexo] = useState('')
-    const [peso, setPeso] = useState('')
-    const [estatura, setEstatura] = useState('')
-    const [idade, setIdade] = useState('')
-    const taxaAtividade = {
+    const [nome, setNome]: any = useState('')
+    const [atividade, setAtividade]: any = useState('')
+    const [sexo, setSexo]: any = useState('')
+    const [peso, setPeso]: any = useState('')
+    const [estatura, setEstatura]: any = useState('')
+    const [idade, setIdade]: any = useState('')
+    const taxaAtividade: any = {
         sedentario: 1.2,
         levemente_ativo: 1.375,
         moderadamente_ativo: 1.55,
@@ -119,7 +119,7 @@ export function CalculadoraTMB() {
                                 )
                             )
                         )
-                        ).toFixed(0) : null}
+                        ).toFixed(0) : <span></span>}
                     </span>
                 </form>
             </div>

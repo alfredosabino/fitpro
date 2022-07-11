@@ -1,7 +1,7 @@
 import { Header } from "../Header/Header";
 import { Sidebar } from "../Sidebar/Sidebar";
 
-export function Content({ children }) {
+export function Content({ children }: any) {
     return (
         <div className='min-h-screen'>
             <Header />

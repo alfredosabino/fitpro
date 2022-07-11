@@ -1,10 +1,10 @@
-export function CalculadoraAgua(pe: Number) {
+export function CalculadoraAgua(pe: number) {
     const peso = pe
     const consumoAgua = peso * 35
     return consumoAgua
 }
 
-export function CalculadoraIMC(est: Number, pe: Number) {
+export function CalculadoraIMC(est: number, pe: number) {
     const alt = (est * 0.01)
     const imc = (pe / (alt * alt)).toFixed(1)
     const imcdesc = imc <= '18.5' ? <span className="text-blue-700">Abaixo do Peso</span>
@@ -17,8 +17,8 @@ export function CalculadoraIMC(est: Number, pe: Number) {
     return { imc, imcdesc }
 }
 
-export function CalculadoraTMB(genre: String, age: Number, stature: Number, weight: Number, level_activy: String) {
-    const valueActivy =
+export function CalculadoraTMB(genre: String, age: number, stature: number, weight: number, level_activy: String) {
+    const valueActivy: any =
         level_activy === 'sedentario' ? 1.2
             : level_activy === 'levemente_ativo' ? 1.375
                 : level_activy === 'moderadamente_ativo' ? 1.55
@@ -26,7 +26,7 @@ export function CalculadoraTMB(genre: String, age: Number, stature: Number, weig
                         : level_activy === 'extremamente_ativo' ? 1.9
                             : null
 
-    const valueGenre = {
+    const valueGenre: any = {
         'male': {
             'valtot': 66,
             'valpeso': 13.7 * weight,
@@ -62,7 +62,7 @@ export function CalculadoraTMB(genre: String, age: Number, stature: Number, weig
 
 }
 
-export function CalculadoraMacros(tmb: Number) {
+export function CalculadoraMacros(tmb: number) {
     const macroCarboidrato = ((tmb * 40) / 100) / 4
     const macroProteico = ((tmb * 40) / 100) / 4
     const macroGordura = ((tmb * 20) / 100) / 9
