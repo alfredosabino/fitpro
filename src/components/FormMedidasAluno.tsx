@@ -17,7 +17,7 @@ export function FormMedidasAluno() {
     return (
         <div className="flex w-full">
             <Card>
-                <TitleCard title={"Avaliação"} />
+                <TitleCard title={"Formulário de Avaliação"} />
                 <div className="flex justify-center p-4 bg-gray-800 border-2 border-blue-700 rounded-xl h-full">
                     <form className="grid item-center w-full">
                         <legend>
