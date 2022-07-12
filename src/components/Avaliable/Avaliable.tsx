@@ -8,7 +8,7 @@ export function Avaliable() {
             <h1 className="text-2xl font-semibold text-green-300 uppercase mb-3">Avaliação</h1>
                 <hr/>
             <div className='w-full mt-4'>
-                <div className="flex">
+                <div className="flex container">
                     <FormMedidasAluno />
                 </div>
             </div>

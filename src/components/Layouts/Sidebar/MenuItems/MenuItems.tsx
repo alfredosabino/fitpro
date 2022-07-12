@@ -5,7 +5,7 @@ export function MenuItems(props: any) {
         <Link
             to={props.link}
             className="items-center justify-start p-3 text-sm hover:text-base hover:text-green-300 hover:bg-gray-700">
-            {props.menuitem}
+            <span className="flex items-center">{props.icon} {props.menuitem}</span>
         </Link>
     )
 }

@@ -41,7 +41,7 @@ export function CalculadoraTMB(genre: String, age: number, stature: number, weig
         }
     }
 
-    const tmb = (genre == 'male' ?
+    const tmb = (genre === 'male' ?
         valueActivy * (
             (valueGenre.male.valtot + (
                 (valueGenre.male.valpeso) + (
@@ -50,13 +50,15 @@ export function CalculadoraTMB(genre: String, age: number, stature: number, weig
             )
             )
         )
-        : genre == 'female' ? (valueGenre.female.valtot + (
-            valueGenre.female.valpeso)
-            + (
-                (valueGenre.female.valalt)
-                - (valueGenre.female.valid)
-            )
-        ) : null
+        : genre === 'female' ?
+            valueActivy * (
+                (valueGenre.female.valtot + (
+                    (valueGenre.female.valpeso) + (
+                        valueGenre.female.valalt) - (
+                        valueGenre.female.valid)
+                )
+                )
+            ) : null
     )
     return tmb
 

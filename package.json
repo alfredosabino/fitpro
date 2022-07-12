@@ -14,6 +14,8 @@
     "@graphql-codegen/typescript-operations": "^2.4.3",
     "@graphql-codegen/typescript-react-query": "^3.5.15",
     "graphql": "^16.5.0",
+    "phosphor": "^0.7.1",
+    "phosphor-react": "^1.4.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0"
