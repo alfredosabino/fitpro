@@ -15,12 +15,12 @@ export function FormMedidasAluno() {
     const [idade, setIdade]: any = useState('')
 
     return (
-        <div className="grid w-full md:inline-grid">
+        <div className="grid w-full">
             <Card>
                 <TitleCard title={"Formulário de Avaliação"} />
-                <div className="flex justify-center p-5 bg-gray-800 border-2 border-blue-700 rounded-xl h-full">
-                    <form className="flex justify-center item-center w-full">
-                        <legend>
+                <div className="flex justify-center p-5 bg-gray-800 border-2 border-blue-700 rounded-xl h-auto">
+                    <form className="flex md:flex-wrap sm:flex-wrap justify-center item-center w-full">
+                        <legend className="mr-2">
                             Nome:
                             <input
                                 type="text"
@@ -103,7 +103,7 @@ export function FormMedidasAluno() {
 
             <Card>
                 <TitleCard title={"Situação Atual"} />
-                <div className="flex justify-between p-2">
+                <div className="flex justify-between p-2  md:flex-wrap sm:flex-wrap">
                     <div className="flex flex-col text-xl font-semibold">
                         <div>
                             <span>{nome}</span>
@@ -125,8 +125,8 @@ export function FormMedidasAluno() {
                         </span>
                     </div>
                 </div>
-                <div className="flex flex-col">
-                    <div className="flex flex-1 gap-2 p-2 justify-around w-full">
+                <div className="flex flex-col md:flex-wrap sm:flex-wrap">
+                    <div className="flex flex-1 gap-2 p-2 justify-around w-full md:flex-wrap sm:flex-wrap lg:flex-nowrap">
                         <div className="border-l-4 border-blue-400 bg-gray-800 w-full">
                             <div className="flex justify-between p-2">
                                 <div className="flex flex-col">
@@ -138,7 +138,7 @@ export function FormMedidasAluno() {
                                 </div>
                             </div>
                         </div>
-                        <div className="border-l-4 border-green-400 bg-gray-800 w-full ml-2">
+                        <div className="border-l-4 border-green-400 bg-gray-800 w-full ml-2 md:ml-0 sm:ml-0">
                             <div className="flex justify-between p-2">
                                 <div className="flex flex-col">
                                     <span className="text-2xl font-semibold">IMC</span>
@@ -148,11 +148,11 @@ export function FormMedidasAluno() {
                                     <span>
                                         <span className="font-bold text-2xl">{CalculadoraIMC(estatura, peso).imc} IMC</span>
                                     </span>
-                                    <span className="bg-green-200 rounded-lg text-center font-bold text-white p-1">{CalculadoraIMC(estatura, peso).imcdesc}</span>
+                                    <span className="bg-green-50 rounded-lg text-center font-bold text-white p-1">{CalculadoraIMC(estatura, peso).imcdesc}</span>
                                 </div>
                             </div>
                         </div>
-                        <div className="border-l-4 border-red-400 bg-gray-800 w-full ml-2">
+                        <div className="border-l-4 border-red-400 bg-gray-800 w-full ml-2 md:ml-0 sm:ml-0">
                             <div className="flex justify-between p-2">
                                 <div className="flex flex-col">
                                     <span className="text-2xl font-semibold">TMB</span>
@@ -177,7 +177,7 @@ export function FormMedidasAluno() {
                             CalculadoraTMB(sexo, idade, estatura, peso, atividade)
                         ).map(Macros => {
                             return (
-                                <div className="flex justify-around bg-gray-800 rounded-xl border-2 border-blue-700 p-3 mt-4">
+                                <div className="flex md:flex-wrap sm:flex-wrap justify-around bg-gray-800 rounded-xl border-2 border-blue-700 p-3 mt-4">
                                     <div className="flex flex-col items-center">
                                         <span className="font-semibold">Carboidratos</span>
                                         <span className="font-bold text-3xl">{Macros.macroCarboidrato?.toFixed(0)}g</span>
