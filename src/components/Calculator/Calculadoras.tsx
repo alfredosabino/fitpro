@@ -12,7 +12,7 @@ export function CalculadoraIMC(est: number, pe: number) {
             : imc >= '25' && imc <= '29.9' ? <span className="text-yellow-600">Sobrepeso</span>
                 : imc >= '30' && imc <= '34.9' ? <span className="text-orange-600">Obsesidade I</span>
                     : imc >= '35' && imc <= '39.9' ? <span className="text-red-600">Obsesidade II</span>
-                        : imc >= '40' ? <span className="text-purple-600">Obesidade III</span> : null
+                        : imc >= '40' ? <span className="text-purple-600">Obesidade III</span> : <span></span>
 
     return { imc, imcdesc }
 }
@@ -24,7 +24,7 @@ export function CalculadoraTMB(genre: String, age: number, stature: number, weig
                 : level_activy === 'moderadamente_ativo' ? 1.55
                     : level_activy === 'altamente_ativo' ? 1.725
                         : level_activy === 'extremamente_ativo' ? 1.9
-                            : null
+                            : <span></span>
 
     const valueGenre: any = {
         'male': {
@@ -58,7 +58,7 @@ export function CalculadoraTMB(genre: String, age: number, stature: number, weig
                         valueGenre.female.valid)
                 )
                 )
-            ) : null
+            ) : 0
     )
     return tmb
 

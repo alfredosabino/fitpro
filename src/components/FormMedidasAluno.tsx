@@ -192,7 +192,8 @@ export function FormMedidasAluno() {
                                     </div>
                                 </div>
                             )
-                        })}
+                        })
+                        }
                     </div>
                 </div>
             </Card >
