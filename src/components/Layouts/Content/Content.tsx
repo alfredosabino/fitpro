@@ -5,9 +5,9 @@ export function Content({ children }: any) {
     return (
         <div className='min-h-screen'>
             <Header />
-            <main className='flex min-h-screen  w-full'>
+            <main className='xl:flex lg:flex md:grid sm:grid min-h-screen w-full'>
                 <Sidebar />
-                <div className="w-[84%] bg-gray-100 p-4">
+                <div className="w-full bg-gray-100 p-4">
                     {children}
                 </div>
             </main>

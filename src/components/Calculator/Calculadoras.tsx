@@ -71,3 +71,23 @@ export function CalculadoraMacros(tmb: number) {
 
     return [{ macroCarboidrato, macroProteico, macroGordura, tmb }]
 }
+
+export function Calculadora3DobrasMasc(pescoco: string, abdominal: string, altura: string) {
+
+    const pesc = parseInt(pescoco)
+    const abs = parseInt(abdominal)
+    const alt = parseInt(altura)
+    const gc = (1.033 - ((0.191 * getBaseLog(10, (abs - pesc)))) + (0.155 * getBaseLog(10, alt)))
+    const porcentGorduraCoporal = ((495 / gc) - 450)
+
+    function getBaseLog(x: number, y: number) {
+        return Math.log(y) / Math.log(x)
+    }
+
+    return porcentGorduraCoporal.toFixed(2)
+}
+
+export function MassaMagra(massaGorda: any, peso: any){
+    const pes = parseInt(peso)
+    return pes - massaGorda 
+}

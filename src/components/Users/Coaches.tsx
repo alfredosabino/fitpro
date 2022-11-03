@@ -7,7 +7,7 @@ export function Coaches() {
     return (
         <Content>
             <h1 className="text-2xl font-semibold text-green-300 uppercase mb-3">Professores</h1>
-            <table className='table w-full justify-start text-gray-800 border border-collapse border-slate-400 rounded-lg'>
+            <table className='table tablet-auto w-full justify-start text-gray-800 border border-collapse border-slate-400 rounded-lg'>
                 <thead className='table-header-group bg-gray-200'>
                     <tr className='table-row'>
                         <th className='table-cell text-left px-2'>Avatar</th>

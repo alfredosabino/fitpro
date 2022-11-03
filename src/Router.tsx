@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { Avaliable } from './components/Avaliable/Avaliable'
+import { Avaliable } from './pages/Avaliable'
 import { Coaches } from './components/Users/Coaches'
 import { Studants } from './components/Users/Studants'
 import { Dashboard } from './pages/Dashboard'
